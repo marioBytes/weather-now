@@ -1,18 +1,22 @@
 interface InputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  icon?: React.ReactNode;
   value: string;
 }
 
-const Input: React.FC<InputProps> = ({ onChange, placeholder, value }) => {
+const Input: React.FC<InputProps> = ({ onChange, placeholder, value, icon }) => {
   return (
-    <input
-      className="bg-neutral-800 py-4 px-6 rounded-xl text-lg active:outline-1 outline-white outline-offset-4 w-full"
-      placeholder={placeholder}
-      type="text"
-      value={value}
-      onChange={onChange}
-    />
+    <label className="flex items-center gap-4 py-4 px-6 bg-neutral-800 rounded-xl text-lg w-full focus-within:outline-1 outline-white outline-offset-4">
+      {icon && icon}
+      <input
+        className="placeholder:text-white w-full focus:outline-none"
+        placeholder={placeholder}
+        type="text"
+        value={value}
+        onChange={onChange}
+      />
+    </label>
   );
 };
 
