@@ -1,6 +1,7 @@
 import Card from "./Card";
+import moment from "moment";
 
-import { getDayOfWeek, getIconURL } from "../utils/utils";
+import { getIconURL } from "../utils/utils";
 
 interface DailyForecastCardProps {
   date: string;
@@ -11,7 +12,7 @@ interface DailyForecastCardProps {
 
 const DailyForecastCard: React.FC<DailyForecastCardProps> = ({ date, code, low, high }) => {
   const iconUrl = getIconURL(code);
-  const dayOfWeek = getDayOfWeek(date, "short");
+  const dayOfWeek = moment(date).format("ddd");
 
   return (
     <Card className="px-2.5 py-4">
