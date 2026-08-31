@@ -14,8 +14,8 @@ const HourlyForecast: React.FC = () => {
   if (!data) return null;
 
   return (
-    <div className="bg-neutral-800 h-96 rounded-3xl overflow-hidden">
-      <div className="p-6 h-full overflow-auto scrollbar">
+    <div className="bg-neutral-800 rounded-3xl overflow-hidden xl:h-full h-120">
+      <div className="p-6 h-full overflow-auto scrollbar min-h-0">
         <div className="flex items-center justify-between pb-4">
           <h3 className="text-[1.25rem]">Hourly forecast</h3>
           <select
