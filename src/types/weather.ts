@@ -17,7 +17,7 @@ export interface Location {
 export interface Condition {
   text: string;
   icon: string;
-  code: number
+  code: number;
 }
 
 export interface Current {
