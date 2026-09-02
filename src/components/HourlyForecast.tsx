@@ -10,7 +10,7 @@ import Dropdown from "./Dropdown";
 
 const HourlyForecast: React.FC = () => {
   const { data } = useWeatherStore();
-  const { selectedDay, setSelectedDay, unitSystem } = useUiStore();
+  const { selectedDay, setSelectedDay, units } = useUiStore();
 
   const options = data!.forecast!.forecastday.map((forecast) => {
     const date = moment(forecast.date).format("YYYY-MM-DD");
@@ -30,8 +30,7 @@ const HourlyForecast: React.FC = () => {
           />
         </div>
         <div className="flex flex-col gap-4">
-          {data.forecast &&
-            data.forecast.forecastday
+          {data!.forecast!.forecastday
               .find((day) => moment(day.date).isSame(selectedDay))
               ?.hour.map((hour) => {
                 if (moment(selectedDay).date() === moment().date() && moment(hour.time).hour() <= moment().hour()) {
@@ -40,7 +39,7 @@ const HourlyForecast: React.FC = () => {
 
                 const time = moment(hour.time).format("h A");
                 const iconURL = getIconURL(hour.condition.code);
-                const temp = unitSystem === "imperial" ? hour.temp_f : hour.temp_c;
+                const temp = units.temp === "f" ? hour.temp_f : hour.temp_c;
 
                 return (
                   <Card key={hour.time} bg="700">

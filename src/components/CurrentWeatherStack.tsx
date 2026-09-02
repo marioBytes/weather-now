@@ -5,17 +5,17 @@ import useUiStore from "../stores/uiStore";
 
 const CurrentWeatherStack: React.FC = () => {
   const { data } = useWeatherStore();
-  const { unitSystem } = useUiStore();
+  const { units } = useUiStore();
 
   const feelsLike = data
-    ? unitSystem === "metric"
+    ? units.temp === "c"
       ? `${data.current.feelslike_c}°`
       : `${data.current.feelslike_f}°`
     : "-";
-  const wind = data ? (unitSystem === "metric" ? `${data.current.wind_kph} m/s` : `${data.current.wind_mph} mph`) : "-";
+  const wind = data ? (units.windSpeed === "km" ? `${data.current.wind_kph} km/h` : `${data.current.wind_mph} mph`) : "-";
   const humidity = data ? `${data.current.humidity}%` : "-";
   const precipitation = data
-    ? unitSystem === "metric"
+    ? units.precipitation === "mm"
       ? `${data.current.precip_mm} mm`
       : `${data.current.precip_in} in`
     : "-";

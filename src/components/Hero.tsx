@@ -7,11 +7,11 @@ import { getIconURL } from "../utils/utils";
 
 const Hero: React.FC = () => {
   const { data } = useWeatherStore();
-  const { unitSystem } = useUiStore();
+  const { units } = useUiStore();
 
   if (!data) return null;
 
-  const currentTemp = unitSystem === "metric" ? data.current.feelslike_c : data.current.feelslike_f;
+  const currentTemp = units.temp === "c" ? data.current.feelslike_c : data.current.feelslike_f;
   const iconURL = getIconURL(data.current.condition.code);
 
   return (

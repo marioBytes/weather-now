@@ -5,14 +5,14 @@ import DailyForecastCard from "./DailyForecastCard";
 
 const DailyForecastStack: React.FC = () => {
   const { data } = useWeatherStore();
-  const { unitSystem } = useUiStore();
+  const { units } = useUiStore();
 
   if (!data) return null;
   if (!data.forecast) return null;
 
   const forecast = data.forecast.forecastday.map((forecast) => {
-    const high = unitSystem === "imperial" ? forecast.day.maxtemp_f : forecast.day.maxtemp_c;
-    const low = unitSystem === "imperial" ? forecast.day.mintemp_f : forecast.day.mintemp_c;
+    const high = units.temp === "f" ? forecast.day.maxtemp_f : forecast.day.maxtemp_c;
+    const low = units.temp === "f" ? forecast.day.mintemp_f : forecast.day.mintemp_c;
 
     return (
       <DailyForecastCard
