@@ -50,7 +50,7 @@ const Dropdown: React.FC<DropdownProps> = ({ buttonText, options, value, onChang
                 disabled={option.disabled}
                 isSelected={isSelected}
                 showCheckmark={showCheckmark}
-                onClick={() => handleOnChange(option.value)}
+                onClick={() => handleOnChange(option.value, option.disabled)}
               />
             );
           })}
