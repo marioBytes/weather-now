@@ -50,7 +50,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   const handleOnChange = (value: string, isDisabled = false) => {
     if (isDisabled) return;
 
-  const handleOnChange = (value: string) => {
     onChange(value);
 
     if (!multi) setIsOpen(false);
