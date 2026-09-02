@@ -1,26 +1,62 @@
 import { useState } from "react";
+
+import DropdownItem from "./DropdownItem";
 import IconDropdown from "../assets/iconDropdown";
+
+interface Option {
+  field: string;
+  value: string;
+  disabled?: boolean;
+}
 
 interface DropdownProps {
   buttonText: string;
-  children: React.ReactNode;
+  options: Option[];
+  onChange: (value: string) => void;
+  value: string | string[];
+  multi?: boolean;
+  showCheckmark?: boolean;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ buttonText, children }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const Dropdown: React.FC<DropdownProps> = ({ buttonText, options, value, onChange, multi = false, showCheckmark = false }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOnChange = (value: string) => {
+    onChange(value);
+
+    if (!multi) setIsOpen(false);
+  };
 
   return (
-    <>
+    <div className="relative inline-block text-left mr-2">
       <button
-        className="bg-neutral-800 rounded-lg py-3 px-4 hover:cursor-pointer hover:bg-neutral-700"
+        className="bg-neutral-700 rounded-lg py-3 px-4 hover:cursor-pointer hover:bg-neutral-600"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="flex items-center gap-2">
           {buttonText} <IconDropdown />
         </span>
       </button>
-      {isOpen && <div className="bg-neutral-800 rounded-md py-1.5 px-2 fixed z-50 mt-2">{children}</div>}
-    </>
+      {isOpen && (
+        <div className="origin-top-right absolute right-0 w-56 bg-neutral-800 outline outline-neutral-600 rounded-md py-1.5 px-2 z-50 mt-2">
+          {options.map((option) => {
+            const isSelected = option.value === value || value.includes(option.value);
+
+            return (
+              <DropdownItem
+                key={option.field}
+                field={option.field}
+                value={option.value}
+                disabled={option.disabled}
+                isSelected={isSelected}
+                showCheckmark={showCheckmark}
+                onClick={() => handleOnChange(option.value)}
+              />
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 };
 
