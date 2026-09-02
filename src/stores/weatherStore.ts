@@ -32,13 +32,13 @@ const useWeatherStore = create<WeatherStore>((set, get) => ({
     );
   },
   fetchForecast: async () => {
+    set({ loading: true, error: null });
+
     const { geolocation } = get();
 
     if (!geolocation) {
       return;
     }
-
-    set({ loading: true, error: null });
 
     try {
       const response = await axios.get("/forecast.json", {
