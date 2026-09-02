@@ -6,38 +6,28 @@ import useWeatherStore from "../stores/weatherStore";
 import { getIconURL } from "../utils/utils";
 
 import Card from "./Card";
+import Dropdown from "./Dropdown";
 
 const HourlyForecast: React.FC = () => {
   const { data } = useWeatherStore();
   const { selectedDay, setSelectedDay, unitSystem } = useUiStore();
 
-  if (!data) return null;
+  const options = data!.forecast!.forecastday.map((forecast) => {
+    const date = moment(forecast.date).format("YYYY-MM-DD");
+    return { field: moment(forecast.date).format("dddd"), value: date };
+  });
 
   return (
     <div className="bg-neutral-800 rounded-3xl overflow-hidden xl:h-full h-120">
       <div className="p-6 h-full overflow-auto scrollbar min-h-0">
         <div className="flex items-center justify-between pb-4">
           <h3 className="text-[1.25rem]">Hourly forecast</h3>
-          <select
-            className="bg-neutral-600 py-2 px-4 rounded-lg"
+          <Dropdown
+            buttonText={moment(selectedDay).format("dddd")}
+            options={options}
+            onChange={(value) => setSelectedDay(value)}
             value={selectedDay}
-            onChange={(e) => setSelectedDay(e.target.value)}
-          >
-            {data.forecast &&
-              data.forecast.forecastday.map((forecast) => {
-                const day = moment(forecast.date).format("dddd");
-
-                return (
-                  <option
-                    className="bg-neutral-600 text-base p-4 aria-selected:bg-neutral-700 hover:bg-neutral-700"
-                    value={moment(forecast.date).format("YYYY-MM-DD")}
-                    key={moment(forecast.date).format("YYYY-MM-DD")}
-                  >
-                    {day}
-                  </option>
-                );
-              })}
-          </select>
+          />
         </div>
         <div className="flex flex-col gap-4">
           {data.forecast &&
