@@ -1,6 +1,9 @@
-import { create } from 'zustand';
-import axios from '../axios';
-import type { WeatherData } from '../types/weather';
+import { create } from "zustand";
+import moment from "moment";
+
+import axios from "../axios";
+import useUiStore from "./uiStore";
+import type { WeatherData } from "../types/weather";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
@@ -20,20 +23,25 @@ const useWeatherStore = create<WeatherStore>((set, get) => ({
   geolocation: null,
   getGeolocation: () => {
     navigator.geolocation.getCurrentPosition(
-      (position) => { set({ geolocation: `${position.coords.latitude},${position.coords.longitude}` }) },
-      () => { set({ error: 'Unable to get geolocation', loading: false }) })
+      (position) => {
+        set({ geolocation: `${position.coords.latitude},${position.coords.longitude}` });
+      },
+      () => {
+        set({ error: "Unable to get geolocation", loading: false });
+      },
+    );
   },
   fetchForecast: async () => {
+    set({ loading: true, error: null });
+
     const { geolocation } = get();
 
     if (!geolocation) {
       return;
     }
 
-    set({ loading: true, error: null });
-
     try {
-      const response = await axios.get('/forecast.json', {
+      const response = await axios.get("/forecast.json", {
         params: {
           key: API_KEY,
           q: geolocation,
@@ -41,9 +49,10 @@ const useWeatherStore = create<WeatherStore>((set, get) => ({
         },
       });
 
-      set({ data: response.data, loading: false })
+      set({ data: response.data, loading: false });
+      useUiStore.setState({ selectedDay: moment().format("YYYY-MM-DD") });
     } catch (error) {
-      set({ error: "Unable to get forecast", loading: false })
+      set({ error: "Unable to get forecast", loading: false });
     }
   },
 }));
