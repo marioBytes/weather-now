@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import "./App.css";
 
@@ -10,10 +10,14 @@ import Hero from "./components/Hero";
 import Dropdown from "./components/Dropdown";
 import Logo from "./assets/Logo";
 import useUiStore, { getUnitSystem } from "./stores/uiStore";
+import Input from "./components/Input";
+import SearchIcon from "./assets/SearchIcon";
+import Button from "./components/Button";
 
 function App() {
-  const { data, loading, error, fetchForecast, geolocation, getGeolocation } = useWeatherStore();
+  const { data, loading, error, fetchForecast, geolocation, getGeolocation, searchLocation } = useWeatherStore();
   const { units, setUnit, setUnitSystem } = useUiStore();
+  const [searchTerm, setSearchTerm] = useState("");
   const unitSystem = getUnitSystem(units);
 
   useEffect(() => {
@@ -86,6 +90,20 @@ function App() {
             />
           </div>
         </div>
+      </div>
+      <div className="col-span-12 my-16">
+        <h1 className="text-[3.25rem] text-center font-bold"> How's the sky looking today?</h1>
+      </div>
+      <div className="col-span-12 col-start-4 col-end-10 mb-12">
+        <form className="flex gap-4" onSubmit={(event) => event.preventDefault()}>
+          <Input
+            icon={<SearchIcon />}
+            placeholder="Search for a place..."
+            onChange={(event) => setSearchTerm(event.target.value)}
+            value={searchTerm}
+          />
+          <Button onClick={() => searchLocation(searchTerm)}>Search</Button>
+        </form>
       </div>
       <div className="flex flex-col gap-8 col-span-12 xl:col-span-8">
         <div className="flex flex-col gap-8">
