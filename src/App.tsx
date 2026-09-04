@@ -1,122 +1,109 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect } from "react";
+
+import "./App.css";
+
+import useWeatherStore from "./stores/weatherStore";
+import DailyForecastStack from "./components/DailyForecastStack";
+import CurrentWeatherStack from "./components/CurrentWeatherStack";
+import HourlyForecast from "./components/HourlyForecast";
+import Hero from "./components/Hero";
+import Dropdown from "./components/Dropdown";
+import Logo from "./assets/Logo";
+import useUiStore, { getUnitSystem } from "./stores/uiStore";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { data, loading, error, fetchForecast, geolocation, getGeolocation } = useWeatherStore();
+  const { units, setUnit, setUnitSystem } = useUiStore();
+  const unitSystem = getUnitSystem(units);
+
+  useEffect(() => {
+    if (!geolocation) {
+      getGeolocation();
+    }
+
+    fetchForecast();
+  }, [getGeolocation, geolocation, fetchForecast]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!data) {
+    return <div>No data</div>;
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="grid grid-cols-12 gap-8 p-4 md:p-6 xl:p-2">
+      <div className="col-span-12">
+        <div className="flex justify-between items-center">
+          <div>
+            <Logo />
+          </div>
+          <div>
+            <Dropdown
+              buttonText="Units"
+              multi
+              showCheckmark
+              options={[
+                {
+                  value:
+                    unitSystem === "mixed"
+                      ? "imperial"
+                      : unitSystem === "metric"
+                        ? "imperial"
+                        : "metric",
+                  field: unitSystem === "mixed" ? "Use Imperial" : `Switch to ${unitSystem === "metric" ? "Imperial" : "Metric"}`,
+                },
+                { value: "", field: "Temperature", disabled: true },
+                { value: "c", field: "Celsius (°C)" },
+                { value: "f", field: "Fahrenheit (°F)" },
+                { value: "", field: "Wind Speed", disabled: true },
+                { value: "km", field: "km/h" },
+                { value: "mph", field: "mph" },
+                { value: "", field: "Precipitation", disabled: true },
+                { value: "mm", field: "Millimeters (mm)" },
+                { value: "in", field: "Inches (in)" },
+              ]}
+              value={[unitSystem, units.temp, units.windSpeed, units.precipitation]}
+              onChange={(value) => {
+                if (value === "imperial" || value === "metric") {
+                  setUnitSystem(value);
+                  return;
+                }
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+                if (value === "c" || value === "f") {
+                  setUnit("temp", value);
+                } else if (value === "km" || value === "mph") {
+                  setUnit("windSpeed", value);
+                } else if (value === "in" || value === "mm") {
+                  setUnit("precipitation", value);
+                }
+              }}
+            />
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+      </div>
+      <div className="flex flex-col gap-8 col-span-12 xl:col-span-8">
+        <div className="flex flex-col gap-8">
+          <Hero />
+          <CurrentWeatherStack />
         </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <div className="flex flex-col gap-4">
+          <h3 className="text-3xl">Daily forecast</h3>
+          <DailyForecastStack />
+        </div>
+      </div>
+      <div className="col-span-12 xl:col-span-4 xl:relative">
+        <div className="xl:absolute xl:inset-0">
+          <HourlyForecast />
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
