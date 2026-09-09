@@ -10,6 +10,7 @@ import Hero from "./components/Hero";
 import Dropdown from "./components/Dropdown";
 import Logo from "./assets/Logo";
 import useUiStore, { getUnitSystem } from "./stores/uiStore";
+import Search from "./components/Search";
 
 function App() {
   const { data, loading, error, fetchForecast, geolocation, getGeolocation } = useWeatherStore();
@@ -21,20 +22,10 @@ function App() {
       getGeolocation();
     }
 
-    fetchForecast();
+    if (geolocation) {
+      fetchForecast(geolocation);
+    }
   }, [getGeolocation, geolocation, fetchForecast]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!data) {
-    return <div>No data</div>;
-  }
 
   return (
     <div className="grid grid-cols-12 gap-8 p-4 md:p-6 xl:p-2">
@@ -50,13 +41,11 @@ function App() {
               showCheckmark
               options={[
                 {
-                  value:
+                  value: unitSystem === "mixed" ? "imperial" : unitSystem === "metric" ? "imperial" : "metric",
+                  field:
                     unitSystem === "mixed"
-                      ? "imperial"
-                      : unitSystem === "metric"
-                        ? "imperial"
-                        : "metric",
-                  field: unitSystem === "mixed" ? "Use Imperial" : `Switch to ${unitSystem === "metric" ? "Imperial" : "Metric"}`,
+                      ? "Use Imperial"
+                      : `Switch to ${unitSystem === "metric" ? "Imperial" : "Metric"}`,
                 },
                 { value: "", field: "Temperature", disabled: true },
                 { value: "c", field: "Celsius (°C)" },
@@ -87,21 +76,33 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-8 col-span-12 xl:col-span-8">
-        <div className="flex flex-col gap-8">
-          <Hero />
-          <CurrentWeatherStack />
-        </div>
-        <div className="flex flex-col gap-4">
-          <h3 className="text-3xl">Daily forecast</h3>
-          <DailyForecastStack />
-        </div>
+      <div className="col-span-12 my-16">
+        <h1 className="text-[3.25rem] text-center font-bold"> How's the sky looking today?</h1>
       </div>
-      <div className="col-span-12 xl:col-span-4 xl:relative">
-        <div className="xl:absolute xl:inset-0">
-          <HourlyForecast />
-        </div>
+      <div className="col-span-12 lg:col-start-4 lg:col-end-10 mb-12">
+        <Search />
       </div>
+      {error && <div>{error}</div>}
+      {loading && <div>loading</div>}
+      {!loading && data && (
+        <>
+          <div className="flex flex-col gap-8 col-span-12 xl:col-span-8">
+            <div className="flex flex-col gap-8">
+              <Hero />
+              <CurrentWeatherStack />
+            </div>
+            <div className="flex flex-col gap-4">
+              <h3 className="text-3xl">Daily forecast</h3>
+              <DailyForecastStack />
+            </div>
+          </div>
+          <div className="col-span-12 xl:col-span-4 xl:relative">
+            <div className="xl:absolute xl:inset-0">
+              <HourlyForecast />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

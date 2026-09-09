@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 
 import DropdownItem from "./DropdownItem";
 import IconDropdown from "../assets/iconDropdown";
+import useClickOutside from "../hooks/useClickOutside";
+import DropdownItemContainer from "./DropdownItemContainer";
 
 interface Option {
   field: string;
@@ -29,23 +31,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
+  useClickOutside(dropdownRef, () => setIsOpen(false));
 
   const handleOnChange = (value: string, isDisabled = false) => {
     if (isDisabled) return;
@@ -66,9 +52,9 @@ const Dropdown: React.FC<DropdownProps> = ({
         </span>
       </button>
       {isOpen && (
-        <div
-          className="origin-top-right absolute right-0 w-56 bg-neutral-800 outline outline-neutral-600 rounded-md py-1.5 px-2 z-50 mt-2"
+        <DropdownItemContainer
           ref={dropdownRef}
+          width="56"
         >
           {options.map((option) => {
             const isSelected = option.value === value || value.includes(option.value);
@@ -85,7 +71,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               />
             );
           })}
-        </div>
+        </DropdownItemContainer>
       )}
     </div>
   );

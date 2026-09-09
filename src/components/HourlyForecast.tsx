@@ -17,6 +17,8 @@ const HourlyForecast: React.FC = () => {
     return { field: moment(forecast.date).format("dddd"), value: date };
   });
 
+  const localtime = data?.location.localtime;
+
   return (
     <div className="bg-neutral-800 rounded-3xl overflow-hidden xl:h-full h-120">
       <div className="p-6 h-full overflow-auto scrollbar min-h-0">
@@ -30,31 +32,34 @@ const HourlyForecast: React.FC = () => {
           />
         </div>
         <div className="flex flex-col gap-4">
-          {data!.forecast!.forecastday
-              .find((day) => moment(day.date).isSame(selectedDay))
-              ?.hour.map((hour) => {
-                if (moment(selectedDay).date() === moment().date() && moment(hour.time).hour() <= moment().hour()) {
-                  return;
-                }
+          {data!
+            .forecast!.forecastday.find((day) => moment(day.date).isSame(selectedDay))
+            ?.hour.map((hour) => {
+              if (
+                moment(selectedDay).date() === moment(localtime).date() &&
+                moment(hour.time).hour() <= moment(localtime).hour()
+              ) {
+                return;
+              }
 
-                const time = moment(hour.time).format("h A");
-                const iconURL = getIconURL(hour.condition.code);
-                const temp = units.temp === "f" ? hour.temp_f : hour.temp_c;
+              const time = moment(hour.time).format("h A");
+              const iconURL = getIconURL(hour.condition.code);
+              const temp = units.temp === "f" ? hour.temp_f : hour.temp_c;
 
-                return (
-                  <Card key={hour.time} bg="700">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <img src={iconURL} alt={hour.condition.text} width={40} height={40} />
-                        <h4 className="text-[1.25rem]">{time}</h4>
-                      </div>
-                      <div>
-                        <h4 className="text-[1.25rem]">{temp}°</h4>
-                      </div>
+              return (
+                <Card key={hour.time} bg="700">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <img src={iconURL} alt={hour.condition.text} width={40} height={40} />
+                      <h4 className="text-[1.25rem]">{time}</h4>
                     </div>
-                  </Card>
-                );
-              })}
+                    <div>
+                      <h4 className="text-[1.25rem]">{temp}°</h4>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
         </div>
       </div>
     </div>

@@ -19,6 +19,10 @@ interface UiStore {
   setSelectedDay: (value: string) => void;
   setUnitSystem: (system: "metric" | "imperial") => void;
   setUnit: <K extends keyof Units>(key: K, value: Units[K]) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+  showSearchResults: boolean;
+  setShowSearchResults: (show: boolean) => void;
 }
 
 const useUiStore = create<UiStore>((set) => ({
@@ -26,7 +30,12 @@ const useUiStore = create<UiStore>((set) => ({
   selectedDay: "",
   setSelectedDay: (value: string) => set({ selectedDay: value }),
   setUnitSystem: (system: "metric" | "imperial") => set({ units: SYSTEM_UNITS[system] }),
-  setUnit: <K extends keyof Units>(key: K, value: Units[K]) => set((state) => ({ units: { ...state.units, [key]: value } })),
+  setUnit: <K extends keyof Units>(key: K, value: Units[K]) =>
+    set((state) => ({ units: { ...state.units, [key]: value } })),
+  searchTerm: "",
+  setSearchTerm: (term: string) => set({ searchTerm: term }),
+  showSearchResults: false,
+  setShowSearchResults: (show: boolean) => set({ showSearchResults: show }),
 }));
 
 export function getUnitSystem(units: Units): UnitSystem {

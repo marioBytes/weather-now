@@ -13,16 +13,22 @@ const Hero: React.FC = () => {
 
   const currentTemp = units.temp === "c" ? data.current.feelslike_c : data.current.feelslike_f;
   const iconURL = getIconURL(data.current.condition.code);
+  const fullName =
+    data.location.region === data.location.name
+      ? `${data.location.name}, ${data.location.country}`
+      : `${data.location.name}, ${data.location.region}, ${data.location.country}`;
 
   return (
     <Card className="flex flex-col items-center justify-between text-center px-6 py-20 gap-6 md:flex-row md:text-left relative hero">
       <div>
-        <h2 className="text-[1.75rem] font-bold">{data.location.name}, {data.location.region}</h2>
+        <h2 className="text-[1.75rem] font-bold">{fullName}</h2>
         <h4 className="text-[1.125rem]">{moment(data.location.localtime).format("dddd, MMMM d, YYYY")}</h4>
       </div>
       <div className="flex gap-4">
         <img src={iconURL} alt={data.current.condition.text} width={80} height={80} />
-        <h1 className="text-8xl"><span className="italic">{currentTemp}</span> °</h1>
+        <h1 className="text-8xl">
+          <span className="italic">{currentTemp}</span> °
+        </h1>
       </div>
     </Card>
   );
