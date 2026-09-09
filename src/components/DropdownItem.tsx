@@ -2,7 +2,7 @@ import Checkmark from "../assets/iconCheckmark";
 
 interface DropdownItemProps {
   field: string;
-  value: string;
+  value?: string;
   onClick: () => void;
   isSelected?: boolean;
   showCheckmark?: boolean;
