@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import "./App.css";
 
@@ -15,7 +15,6 @@ import Search from "./components/Search";
 function App() {
   const { data, loading, error, fetchForecast, geolocation, getGeolocation } = useWeatherStore();
   const { units, setUnit, setUnitSystem } = useUiStore();
-  const [searchTerm, setSearchTerm] = useState("");
   const unitSystem = getUnitSystem(units);
 
   useEffect(() => {
