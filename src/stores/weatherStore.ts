@@ -3,7 +3,7 @@ import moment from "moment";
 
 import axios from "../axios";
 import useUiStore from "./uiStore";
-import type { WeatherData } from "../types/weather";
+import type { WeatherData, SearchLocation } from "../types/weather";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
@@ -15,6 +15,7 @@ interface Coordinates {
 interface WeatherStore {
   data: null | WeatherData;
   loading: boolean;
+  searchLoading: boolean;
   error: null | string;
   geolocation: { lat: number; lon: number } | null;
   getGeolocation: () => void;
@@ -26,6 +27,7 @@ interface WeatherStore {
 const useWeatherStore = create<WeatherStore>((set, get) => ({
   data: null,
   loading: false,
+  searchLoading: false,
   error: null,
   geolocation: null,
   getGeolocation: () => {
@@ -69,8 +71,10 @@ const useWeatherStore = create<WeatherStore>((set, get) => ({
       set({ error: "Unable to get forecast", loading: false });
     }
   },
-  location: null,
+  locations: null,
   searchLocation: async (value: string) => {
+    set({ searchLoading: true, error: null });
+
     try {
       const response = await axios.get("/search.json", {
         params: {
@@ -79,10 +83,10 @@ const useWeatherStore = create<WeatherStore>((set, get) => ({
         },
       });
 
-      set({ location: response.data });
-      console.log(get().location);
+      set({ locations: response.data, searchLoading: false });
+      console.log(get().locations);
     } catch (error) {
-      set({ error: "Unable to find location", location: null });
+      set({ error: "Unable to find location", locations: null, searchLoading: false });
     }
   },
 }));
