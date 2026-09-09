@@ -41,13 +41,11 @@ function App() {
               showCheckmark
               options={[
                 {
-                  value:
+                  value: unitSystem === "mixed" ? "imperial" : unitSystem === "metric" ? "imperial" : "metric",
+                  field:
                     unitSystem === "mixed"
-                      ? "imperial"
-                      : unitSystem === "metric"
-                        ? "imperial"
-                        : "metric",
-                  field: unitSystem === "mixed" ? "Use Imperial" : `Switch to ${unitSystem === "metric" ? "Imperial" : "Metric"}`,
+                      ? "Use Imperial"
+                      : `Switch to ${unitSystem === "metric" ? "Imperial" : "Metric"}`,
                 },
                 { value: "", field: "Temperature", disabled: true },
                 { value: "c", field: "Celsius (°C)" },
