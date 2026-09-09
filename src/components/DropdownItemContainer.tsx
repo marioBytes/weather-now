@@ -5,11 +5,13 @@ interface DropdownItemContainerProps {
 }
 
 const DropdownItemContainer: React.FC<DropdownItemContainerProps> = ({ children, ref, width = "56" }) => {
+  const w = width === "full" ? "w-full" : "w-56";
+
   return (
     <div
       ref={ref}
       className={`
-        origin-top-right absolute right-0 w-${width}
+        origin-top-right absolute right-0 ${w}
         bg-neutral-800 outline outline-neutral-600
         rounded-md py-1.5 px-2 z-50 mt-2`}
     >
