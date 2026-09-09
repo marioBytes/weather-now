@@ -25,7 +25,9 @@ function App() {
       getGeolocation();
     }
 
-    fetchForecast();
+    if (geolocation) {
+      fetchForecast(geolocation);
+    }
   }, [getGeolocation, geolocation, fetchForecast]);
 
   if (loading) {
