@@ -20,7 +20,7 @@ interface WeatherStore {
   geolocation: { lat: number; lon: number } | null;
   getGeolocation: () => void;
   fetchForecast: (coordinates: Coordinates) => Promise<void>;
-  locations: SearchLocation[] | null;
+  locations: SearchLocation[] | [];
   searchLocation: (value: string) => Promise<void>;
 }
 
@@ -57,7 +57,7 @@ const useWeatherStore = create<WeatherStore>((set, get) => ({
       useUiStore.setState({ selectedDay: moment(get().data?.location.localtime).format("YYYY-MM-DD") });
 
       if (get().locations) {
-        set({ locations: null });
+        set({ locations: [] });
       }
 
       set({ loading: false });
@@ -65,7 +65,7 @@ const useWeatherStore = create<WeatherStore>((set, get) => ({
       set({ error: "Unable to get forecast", loading: false });
     }
   },
-  locations: null,
+  locations: [],
   searchLocation: async (value: string) => {
     set({ searchLoading: true, error: null });
 
@@ -78,9 +78,8 @@ const useWeatherStore = create<WeatherStore>((set, get) => ({
       });
 
       set({ locations: response.data, searchLoading: false });
-      console.log(get().locations);
     } catch (error) {
-      set({ error: "Unable to find location", locations: null, searchLoading: false });
+      set({ error: "Unable to find location", locations: [], searchLoading: false });
     }
   },
 }));

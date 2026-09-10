@@ -30,11 +30,13 @@ const Search: React.FC = () => {
         />
         {isOpen && (
           <DropdownItemContainer ref={dropdownRef} width="full">
-            {!locations && searchLoading && (
-              <DropdownItem value="" field="Search in progress" onClick={() => {}} disabled />
+            {searchLoading && <DropdownItem value="" field="Search in progress" onClick={() => {}} disabled />}
+            {!searchLoading && locations.length === 0 && (
+              <DropdownItem value="" field="No results" onClick={() => {}} disabled />
             )}
-            {locations &&
-              locations?.map((location) => {
+            {!searchLoading &&
+              locations.length > 0 &&
+              locations.map((location) => {
                 return (
                   <DropdownItem
                     key={location.id}
