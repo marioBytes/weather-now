@@ -11,7 +11,7 @@ import useUiStore, { getUnitSystem } from "./stores/uiStore";
 import Search from "./components/Search";
 
 function App() {
-  const { data, loading, error, fetchForecast, geolocation, getGeolocation } = useWeatherStore();
+  const { data, error, fetchForecast, geolocation, getGeolocation, loading } = useWeatherStore();
   const { units, setUnit, setUnitSystem } = useUiStore();
   const unitSystem = getUnitSystem(units);
 
@@ -89,9 +89,11 @@ function App() {
       <div className="col-span-12 lg:col-start-4 lg:col-end-10 mb-12">
         <Search />
       </div>
-      {error && <div>{error}</div>}
-      {loading && <div>loading</div>}
-      {!loading && data && (
+      {!loading && !data ? (
+        <div className="col-span-12 text-center">
+          <h3 className="text-3xl font-bold">Search for a location</h3>
+        </div>
+      ) : (
         <>
           <div className="flex flex-col gap-8 col-span-12 xl:col-span-8">
             <div className="flex flex-col gap-8">
