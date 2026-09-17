@@ -22,7 +22,7 @@ const HourlyForecast: React.FC = () => {
   const localtime = data?.location.localtime;
   const loadingItems: number[] = [];
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 8; i++) {
     loadingItems.push(i);
   }
 
@@ -98,7 +98,6 @@ const ForecastCard: React.FC<ForecastCardProps> = ({ alt, iconURL, temp, time })
         <div>
           <h4 className="text-[1.25rem]">{temp}°</h4>
         </div>
-        <div>{loading ? <div className="h-5"></div> : <h4 className="text-[1.25rem]">{temp}°</h4>}</div>
       </div>
     </Card>
   );
