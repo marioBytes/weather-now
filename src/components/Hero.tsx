@@ -14,7 +14,7 @@ const Hero: React.FC = () => {
 
   return (
     <Card
-      className={`flex flex-col items-center text-center px-6 py-20 gap-6 md:flex-row md:text-left${
+      className={`flex flex-col items-center text-center px-6 py-20 gap-6 min-h-72 md:flex-row md:text-left${
         loading ? " justify-center" : " justify-between"
       }`}
     >
