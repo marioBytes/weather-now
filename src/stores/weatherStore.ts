@@ -36,7 +36,7 @@ const useWeatherStore = create<WeatherStore>((set, get) => ({
         set({ geolocation: { lat: position.coords.latitude, lon: position.coords.longitude } });
       },
       () => {
-        set({ error: "Unable to get geolocation", loading: false });
+        set({ geolocation: null, loading: false });
       },
     );
   },
