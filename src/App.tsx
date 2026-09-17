@@ -25,6 +25,15 @@ function App() {
     }
   }, [getGeolocation, geolocation, fetchForecast]);
 
+  if (error) {
+    return (
+      <div className="h-lvh flex flex-col gap-2 justify-center text-center">
+        <h1 className="text-6xl font-bold">Something went wrong</h1>
+        <h3 className="text-2xl">Please try again in a few moments</h3>
+      </div>
+    )
+  }
+
   return (
     <div className="grid grid-cols-12 gap-8 p-4 md:p-6 xl:p-2">
       <div className="col-span-12">
