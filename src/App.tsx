@@ -9,6 +9,7 @@ import Dropdown from "./components/Dropdown";
 import Logo from "./assets/Logo";
 import useUiStore, { getUnitSystem } from "./stores/uiStore";
 import Search from "./components/Search";
+import IconUnits from "./assets/IconUnits";
 
 function App() {
   const { data, error, fetchForecast, geolocation, getGeolocation, loading } = useWeatherStore();
@@ -46,6 +47,8 @@ function App() {
               buttonText="Units"
               multi
               showCheckmark
+              withIcon
+              icon={<IconUnits />}
               options={[
                 {
                   value: unitSystem === "mixed" ? "imperial" : unitSystem === "metric" ? "imperial" : "metric",
