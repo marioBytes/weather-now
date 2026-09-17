@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 
-import "./App.css";
-
 import useWeatherStore from "./stores/weatherStore";
 import DailyForecastStack from "./components/DailyForecastStack";
 import CurrentWeatherStack from "./components/CurrentWeatherStack";
