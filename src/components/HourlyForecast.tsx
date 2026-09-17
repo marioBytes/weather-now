@@ -40,7 +40,7 @@ const HourlyForecast: React.FC = () => {
           />
         </div>
         <div className="flex flex-col gap-4">
-          {loading && loadingItems.map((i) => <ForecastCard key={i} loading />)}
+          {loading && loadingItems.map((i) => <LoadingForecastCard key={i} />)}
           {!loading &&
             data &&
             data
@@ -57,16 +57,7 @@ const HourlyForecast: React.FC = () => {
                 const iconURL = getIconURL(hour.condition.code);
                 const temp = units.temp === "f" ? hour.temp_f : hour.temp_c;
 
-                return (
-                  <ForecastCard
-                    key={time}
-                    alt={hour.condition.text}
-                    iconURL={iconURL}
-                    temp={temp}
-                    time={time}
-                    loading={false}
-                  />
-                );
+                return <ForecastCard key={time} alt={hour.condition.text} iconURL={iconURL} temp={temp} time={time} />;
               })}
         </div>
       </div>
@@ -75,26 +66,37 @@ const HourlyForecast: React.FC = () => {
 };
 
 interface ForecastCardProps {
-  loading: boolean;
-  alt?: string;
-  iconURL?: string;
-  temp?: number;
-  time?: string;
+  alt: string;
+  iconURL: string;
+  temp: number;
+  time: string;
 }
 
-const ForecastCard: React.FC<ForecastCardProps> = ({ alt, iconURL, loading, temp, time }) => {
+const LoadingForecastCard: React.FC = () => {
   return (
     <Card bg="700">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {loading ? (
-            <div className="h-5"></div>
-          ) : (
-            <>
-              <img src={iconURL} alt={alt} height={40} width={40} />
-              <h4 className="text-[1.25rem]">{time}</h4>
-            </>
-          )}
+          <div className="h-10"></div>
+        </div>
+        <div>
+          <div className="h-5"></div>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+const ForecastCard: React.FC<ForecastCardProps> = ({ alt, iconURL, temp, time }) => {
+  return (
+    <Card bg="700">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <img src={iconURL} alt={alt} height={40} width={40} />
+          <h4 className="text-[1.25rem]">{time}</h4>
+        </div>
+        <div>
+          <h4 className="text-[1.25rem]">{temp}°</h4>
         </div>
         <div>{loading ? <div className="h-5"></div> : <h4 className="text-[1.25rem]">{temp}°</h4>}</div>
       </div>

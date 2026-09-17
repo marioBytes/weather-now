@@ -4,7 +4,7 @@ import useUiStore from "../stores/uiStore";
 import DailyForecastCard from "./DailyForecastCard";
 
 const DailyForecastStack: React.FC = () => {
-  const { data } = useWeatherStore();
+  const { data, loading } = useWeatherStore();
   const { units } = useUiStore();
 
   if (!data) return null;
@@ -21,6 +21,7 @@ const DailyForecastStack: React.FC = () => {
         code={forecast.day.condition.code}
         high={high}
         low={low}
+        loading={loading}
       />
     );
   });

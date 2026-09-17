@@ -27,6 +27,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   onChange,
   multi = false,
   showCheckmark = false,
+  disabled = false,
+  withIcon = false,
+  icon,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -48,7 +51,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="flex items-center gap-2">
-          {buttonText} <IconDropdown />
+          {withIcon && icon} {buttonText} <IconDropdown />
         </span>
       </button>
       {isOpen && (
