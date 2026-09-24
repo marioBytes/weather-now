@@ -13,13 +13,20 @@ const Hero: React.FC = () => {
   const iconURL = data ? getIconURL(data.current.condition.code) : "";
 
   return (
-    <Card
-      className={`flex flex-col items-center text-center px-6 py-20 gap-6 min-h-72 md:flex-row md:text-left${
-        loading ? " justify-center" : " justify-between"
-      }`}
-    >
+    <Card className="flex flex-col items-center px-6 py-20 gap-6 min-h-72 md:flex-row md:text-left text-center justify-between">
       {loading ? (
-        <h4 className="text-[1.125rem] text-neutral-200">Loading...</h4>
+        <div className="w-full flex flex-col justify-between items-center gap-6 md:flex-row">
+          <div className="flex flex-col justify-center gap-4">
+            <div className="h-7 w-65 bg-neutral-300 rounded animate-pulse"></div>
+            <div className="flex justify-center md:justify-start">
+              <div className="h-5 w-50 bg-neutral-300 rounded animate-pulse"></div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="h-20 w-20 bg-neutral-300 rounded-full animate-pulse"></div>
+            <div className="h-24 w-34 bg-neutral-300 rounded animate-pulse"></div>
+          </div>
+        </div>
       ) : (
         <>
           <div>

@@ -8,6 +8,7 @@ import DropdownItemContainer from "./DropdownItemContainer";
 import DropdownItem from "./DropdownItem";
 import Input from "./Input";
 import SearchIcon from "../assets/SearchIcon";
+import IconLoading from "../assets/IconLoading";
 
 const Search: React.FC = () => {
   const { fetchForecast, loading, locations, searchLocation, searchLoading } = useWeatherStore();
@@ -30,7 +31,7 @@ const Search: React.FC = () => {
         />
         {isOpen && (
           <DropdownItemContainer ref={dropdownRef} width="full">
-            {searchLoading && <DropdownItem value="" field="Search in progress" onClick={() => {}} disabled />}
+            {searchLoading && <DropdownItem icon={<IconLoading />} value="" field="Search in progress" onClick={() => {}} disabled />}
             {!searchLoading && locations.length === 0 && (
               <DropdownItem value="" field="No results" onClick={() => {}} disabled />
             )}

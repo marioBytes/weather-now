@@ -20,11 +20,8 @@ const HourlyForecast: React.FC = () => {
       });
 
   const localtime = data?.location.localtime;
-  const loadingItems: number[] = [];
 
-  for (let i = 0; i < 8; i++) {
-    loadingItems.push(i);
-  }
+  const loadingItems = Array.from({ length: 8 }, (_, i) => <LoadingForecastCard key={i} />);
 
   return (
     <div className="bg-neutral-800 rounded-3xl overflow-hidden xl:h-full h-120">
@@ -40,7 +37,7 @@ const HourlyForecast: React.FC = () => {
           />
         </div>
         <div className="flex flex-col gap-4">
-          {loading && loadingItems.map((i) => <LoadingForecastCard key={i} />)}
+          {loading && loadingItems}
           {!loading &&
             data &&
             data
@@ -77,10 +74,11 @@ const LoadingForecastCard: React.FC = () => {
     <Card bg="700">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="h-10"></div>
+          <div className="h-10 w-10 bg-neutral-300 rounded-full animate-pulse"></div>
+          <div className="h-5 w-10 bg-neutral-300 rounded animate-pulse"></div>
         </div>
         <div>
-          <div className="h-5"></div>
+          <div className="h-5 w-10 bg-neutral-300 rounded animate-pulse"></div>
         </div>
       </div>
     </Card>
