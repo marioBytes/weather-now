@@ -17,7 +17,10 @@ interface DropdownProps {
   onChange: (value: string) => void;
   value: string | string[];
   multi?: boolean;
+  disabled?: boolean;
   showCheckmark?: boolean;
+  withIcon?: boolean;
+  icon?: React.ReactNode;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -27,6 +30,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   onChange,
   multi = false,
   showCheckmark = false,
+  disabled = false,
+  withIcon = false,
+  icon,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -46,9 +52,10 @@ const Dropdown: React.FC<DropdownProps> = ({
       <button
         className="bg-neutral-700 rounded-lg py-3 px-4 hover:cursor-pointer hover:bg-neutral-600"
         onClick={() => setIsOpen(!isOpen)}
+        disabled={disabled}
       >
         <span className="flex items-center gap-2">
-          {buttonText} <IconDropdown />
+          {withIcon && icon} {buttonText} <IconDropdown />
         </span>
       </button>
       {isOpen && (

@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 
-import "./App.css";
-
 import useWeatherStore from "./stores/weatherStore";
 import DailyForecastStack from "./components/DailyForecastStack";
 import CurrentWeatherStack from "./components/CurrentWeatherStack";
@@ -11,9 +9,10 @@ import Dropdown from "./components/Dropdown";
 import Logo from "./assets/Logo";
 import useUiStore, { getUnitSystem } from "./stores/uiStore";
 import Search from "./components/Search";
+import IconUnits from "./assets/IconUnits";
 
 function App() {
-  const { data, loading, error, fetchForecast, geolocation, getGeolocation } = useWeatherStore();
+  const { data, error, fetchForecast, geolocation, getGeolocation, loading } = useWeatherStore();
   const { units, setUnit, setUnitSystem } = useUiStore();
   const unitSystem = getUnitSystem(units);
 
@@ -27,6 +26,15 @@ function App() {
     }
   }, [getGeolocation, geolocation, fetchForecast]);
 
+  if (error) {
+    return (
+      <div className="h-lvh flex flex-col gap-2 justify-center text-center">
+        <h1 className="text-6xl font-bold">Something went wrong</h1>
+        <h3 className="text-2xl">Please try again in a few moments</h3>
+      </div>
+    )
+  }
+
   return (
     <div className="grid grid-cols-12 gap-8 p-4 md:p-6 xl:p-2">
       <div className="col-span-12">
@@ -39,6 +47,8 @@ function App() {
               buttonText="Units"
               multi
               showCheckmark
+              withIcon
+              icon={<IconUnits />}
               options={[
                 {
                   value: unitSystem === "mixed" ? "imperial" : unitSystem === "metric" ? "imperial" : "metric",
@@ -82,9 +92,11 @@ function App() {
       <div className="col-span-12 lg:col-start-4 lg:col-end-10 mb-12">
         <Search />
       </div>
-      {error && <div>{error}</div>}
-      {loading && <div>loading</div>}
-      {!loading && data && (
+      {!loading && !data ? (
+        <div className="col-span-12 text-center">
+          <h3 className="text-3xl font-bold">Search for a location</h3>
+        </div>
+      ) : (
         <>
           <div className="flex flex-col gap-8 col-span-12 xl:col-span-8">
             <div className="flex flex-col gap-8">

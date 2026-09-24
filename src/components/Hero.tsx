@@ -6,26 +6,43 @@ import Card from "./Card";
 import { getIconURL } from "../utils/utils";
 
 const Hero: React.FC = () => {
-  const { data } = useWeatherStore();
+  const { data, loading } = useWeatherStore();
   const { units } = useUiStore();
 
-  if (!data) return null;
-
-  const currentTemp = units.temp === "c" ? data.current.feelslike_c : data.current.feelslike_f;
-  const iconURL = getIconURL(data.current.condition.code);
+  const currentTemp = data ? (units.temp === "c" ? data?.current.feelslike_c : data?.current.feelslike_f) : "";
+  const iconURL = data ? getIconURL(data.current.condition.code) : "";
 
   return (
-    <Card className="flex flex-col items-center justify-between text-center px-6 py-20 gap-6 md:flex-row md:text-left relative hero">
-      <div>
-        <h2 className="text-[1.75rem] font-bold">{data.location.name}, {data.location.country}</h2>
-        <h4 className="text-[1.125rem]">{moment(data.location.localtime).format("dddd, MMMM D, YYYY")}</h4>
-      </div>
-      <div className="flex gap-4">
-        <img src={iconURL} alt={data.current.condition.text} width={80} height={80} className="self-center" />
-        <h1 className="text-8xl">
-          <span className="italic">{currentTemp}°</span>
-        </h1>
-      </div>
+    <Card className="flex flex-col items-center px-6 py-20 gap-6 min-h-72 md:flex-row md:text-left text-center justify-between">
+      {loading ? (
+        <div className="w-full flex flex-col justify-between items-center gap-6 md:flex-row">
+          <div className="flex flex-col justify-center gap-4">
+            <div className="h-7 w-65 bg-neutral-300 rounded animate-pulse"></div>
+            <div className="flex justify-center md:justify-start">
+              <div className="h-5 w-50 bg-neutral-300 rounded animate-pulse"></div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="h-20 w-20 bg-neutral-300 rounded-full animate-pulse"></div>
+            <div className="h-24 w-34 bg-neutral-300 rounded animate-pulse"></div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div>
+            <h2 className="text-[1.75rem] font-bold">
+              {data?.location.name}, {data?.location.country}
+            </h2>
+            <h4 className="text-[1.125rem]">{moment(data?.location.localtime).format("dddd, MMMM D, YYYY")}</h4>
+          </div>
+          <div className="flex gap-4">
+            <img src={iconURL} alt={data?.current.condition.text} width={80} height={80} className="self-center" />
+            <h1 className="text-8xl">
+              <span className="italic">{currentTemp}°</span>
+            </h1>
+          </div>
+        </>
+      )}
     </Card>
   );
 };

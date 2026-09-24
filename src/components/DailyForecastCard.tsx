@@ -15,15 +15,33 @@ const DailyForecastCard: React.FC<DailyForecastCardProps> = ({ date, code, low, 
   const dayOfWeek = moment(date).format("ddd");
 
   return (
-    <Card className="px-2.5 py-4">
-      <div className="flex flex-col gap-4 items-center">
-        <h3 className="text-lg font-dm-sans">{dayOfWeek}</h3>
-        <img className="text-center" src={iconUrl} alt="icon" height={60} width={60} />
-        <div className="flex justify-between w-full">
-          <p>{high}°</p>
-          <p>{low}°</p>
-        </div>
+    <DailyForecastCardContainer>
+      <h3 className="text-lg font-dm-sans">{dayOfWeek}</h3>
+      <img className="text-center" src={iconUrl} alt="icon" height={60} width={60} />
+      <div className="flex justify-between w-full">
+        <p>{high}°</p>
+        <p>{low}°</p>
       </div>
+    </DailyForecastCardContainer>
+  );
+};
+
+export const LoadingDailyForecastCard: React.FC = () => (
+  <DailyForecastCardContainer>
+    <div className="h-7 w-10 bg-neutral-300 rounded animate-pulse" />
+    <div className="h-15 w-15 bg-neutral-300 rounded-full animate-pulse" />
+    <div className="h-6 w-full bg-neutral-300 rounded animate-pulse" />
+  </DailyForecastCardContainer>
+);
+
+interface DailyForecastCardContainerProps {
+  children: React.ReactNode;
+}
+
+const DailyForecastCardContainer: React.FC<DailyForecastCardContainerProps> = ({ children }) => {
+  return (
+    <Card className="px-2.5 py-4">
+      <div className="flex flex-col gap-4 items-center">{children}</div>
     </Card>
   );
 };
