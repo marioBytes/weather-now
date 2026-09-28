@@ -8,10 +8,11 @@ interface DailyForecastCardProps {
   code: number;
   low: number;
   high: number;
+  isDay: boolean;
 }
 
-const DailyForecastCard: React.FC<DailyForecastCardProps> = ({ date, code, low, high }) => {
-  const iconUrl = getIconURL(code);
+const DailyForecastCard: React.FC<DailyForecastCardProps> = ({ date, code, low, high, isDay }) => {
+  const iconUrl = getIconURL(code, isDay);
   const dayOfWeek = moment(date).format("ddd");
 
   return (
