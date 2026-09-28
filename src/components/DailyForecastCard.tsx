@@ -1,24 +1,20 @@
 import Card from "./Card";
 import moment from "moment";
 
-import { getIconURL } from "../utils/utils";
-
 interface DailyForecastCardProps {
   date: string;
-  code: number;
   low: number;
   high: number;
-  isDay: boolean;
+  iconURL: string;
 }
 
-const DailyForecastCard: React.FC<DailyForecastCardProps> = ({ date, code, low, high, isDay }) => {
-  const iconUrl = getIconURL(code, isDay);
+const DailyForecastCard: React.FC<DailyForecastCardProps> = ({ date, low, high, iconURL }) => {
   const dayOfWeek = moment(date).format("ddd");
 
   return (
     <DailyForecastCardContainer>
       <h3 className="text-lg font-dm-sans">{dayOfWeek}</h3>
-      <img className="text-center" src={iconUrl} alt="icon" height={60} width={60} />
+      <img className="text-center" src={iconURL} alt="icon" height={60} width={60} />
       <div className="flex justify-between w-full">
         <p>{high}°</p>
         <p>{low}°</p>

@@ -25,10 +25,9 @@ const DailyForecastStack: React.FC = () => {
       <DailyForecastCard
         key={forecast.date}
         date={forecast.date}
-        code={forecast.day.condition.code}
         high={high}
         low={low}
-        isDay={!!data.current.is_day}
+        iconURL={forecast.day.condition.icon}
       />
     );
   });
