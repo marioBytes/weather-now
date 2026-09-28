@@ -1,6 +1,6 @@
 import { conditionList } from './conditionList';
 
-export function getIconURL(code: number): string {
+export function getIconURL(code: number, isDay: boolean): string {
   const iconCode = conditionList.find((condition) => condition.code === code)
 
   if (!iconCode) {
@@ -9,5 +9,5 @@ export function getIconURL(code: number): string {
     return "";
   }
 
-  return `https://cdn.weatherapi.com/weather/64x64/day/${iconCode.icon}.png`;
+  return `https://cdn.weatherapi.com/weather/64x64/${isDay ? "day" : "night"}/${iconCode.icon}.png`;
 }

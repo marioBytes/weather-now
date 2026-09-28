@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
   const { units } = useUiStore();
 
   const currentTemp = data ? (units.temp === "c" ? data?.current.feelslike_c : data?.current.feelslike_f) : "";
-  const iconURL = data ? getIconURL(data.current.condition.code) : "";
+  const iconURL = data ? getIconURL(data.current.condition.code, !!data.current.is_day) : "";
 
   return (
     <Card className="relative flex flex-col items-center px-6 py-20 gap-6 min-h-72 md:flex-row md:text-left text-center justify-between overflow-hidden">

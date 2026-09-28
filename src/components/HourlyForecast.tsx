@@ -51,7 +51,7 @@ const HourlyForecast: React.FC = () => {
               )
               .map((hour) => {
                 const time = moment(hour?.time).format("h A");
-                const iconURL = getIconURL(hour.condition.code);
+                const iconURL = getIconURL(hour.condition.code, !!hour.is_day);
                 const temp = units.temp === "f" ? hour.temp_f : hour.temp_c;
 
                 return <ForecastCard key={time} alt={hour.condition.text} iconURL={iconURL} temp={temp} time={time} />;

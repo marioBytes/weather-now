@@ -28,6 +28,7 @@ const DailyForecastStack: React.FC = () => {
         code={forecast.day.condition.code}
         high={high}
         low={low}
+        isDay={!!data.current.is_day}
       />
     );
   });
