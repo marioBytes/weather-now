@@ -3,8 +3,6 @@ import moment from "moment";
 import useUiStore from "../stores/uiStore";
 import useWeatherStore from "../stores/weatherStore";
 
-import { getIconURL } from "../utils/utils";
-
 import Card from "./Card";
 import Dropdown from "./Dropdown";
 
@@ -51,10 +49,9 @@ const HourlyForecast: React.FC = () => {
               )
               .map((hour) => {
                 const time = moment(hour?.time).format("h A");
-                const iconURL = getIconURL(hour.condition.code, !!hour.is_day);
                 const temp = units.temp === "f" ? hour.temp_f : hour.temp_c;
 
-                return <ForecastCard key={time} alt={hour.condition.text} iconURL={iconURL} temp={temp} time={time} />;
+                return <ForecastCard key={time} alt={hour.condition.text} iconURL={hour.condition.icon} temp={temp} time={time} />;
               })}
         </div>
       </div>

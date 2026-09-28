@@ -3,7 +3,6 @@ import moment from "moment";
 import useWeatherStore from "../stores/weatherStore";
 import useUiStore from "../stores/uiStore";
 import Card from "./Card";
-import { getIconURL } from "../utils/utils";
 
 import heroDesktop from "../assets/bg-today-large.svg";
 import heroMobile from "../assets/bg-today-small.svg";
@@ -13,7 +12,6 @@ const Hero: React.FC = () => {
   const { units } = useUiStore();
 
   const currentTemp = data ? (units.temp === "c" ? data?.current.feelslike_c : data?.current.feelslike_f) : "";
-  const iconURL = data ? getIconURL(data.current.condition.code, !!data.current.is_day) : "";
 
   return (
     <Card className="relative flex flex-col items-center px-6 py-20 gap-6 min-h-72 md:flex-row md:text-left text-center justify-between overflow-hidden">
@@ -42,7 +40,7 @@ const Hero: React.FC = () => {
             <h4 className="text-[1.125rem]">{moment(data?.location.localtime).format("dddd, MMMM D, YYYY")}</h4>
           </div>
           <div className="relative z-10 flex gap-4">
-            <img src={iconURL} alt={data?.current.condition.text} width={80} height={80} className="self-center" />
+            <img src={data.current.condition.icon} alt={data?.current.condition.text} width={80} height={80} className="self-center" />
             <h1 className="text-8xl">
               <span className="italic">{currentTemp}°</span>
             </h1>
