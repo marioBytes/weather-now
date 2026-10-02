@@ -90,8 +90,6 @@ app.get("/search", async (req: Request, res: Response) => {
 
     res.status(200).json(response.data);
   } catch (error) {
-    console.error(error.message);
-
     res.json({ error: "Internal Error" });
   }
 });
