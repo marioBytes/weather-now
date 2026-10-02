@@ -74,7 +74,7 @@ app.get("/forecast", async (req: Request, res: Response) => {
     };
 
     res.json({ data: weatherData });
-  } catch (error) {
+  } catch (error: any) {
     res.json({ error: "Internal Error" });
   }
 });
@@ -89,7 +89,7 @@ app.get("/search", async (req: Request, res: Response) => {
     });
 
     res.status(200).json(response.data);
-  } catch (error) {
+  } catch (error: any) {
     res.json({ error: "Internal Error" });
   }
 });
