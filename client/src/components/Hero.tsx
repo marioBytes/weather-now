@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
             <h4 className="text-[1.125rem]">{moment(data?.location.localtime).format("dddd, MMMM D, YYYY")}</h4>
           </div>
           <div className="relative z-10 flex gap-4">
-            <img src={data.current.condition.icon} alt={data?.current.condition.text} width={80} height={80} className="self-center" />
+            <img src={data?.current.condition.icon} alt={data?.current.condition.text} width={80} height={80} className="self-center" />
             <h1 className="text-8xl">
               <span className="italic">{currentTemp}°</span>
             </h1>
