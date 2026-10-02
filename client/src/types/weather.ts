@@ -11,6 +11,7 @@ export interface SearchLocation {
   lon: number;
   region: string;
   url: string;
+  name: string;
 }
 
 export interface Location {
