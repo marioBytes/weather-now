@@ -4,6 +4,15 @@ export interface WeatherData {
   forecast?: Forecast;
 }
 
+export interface SearchLocation {
+  country: string;
+  id: number;
+  lat: number;
+  lon: number;
+  region: string;
+  url: string;
+}
+
 export interface Location {
   name: string;
   region: string;
