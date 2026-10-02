@@ -75,7 +75,6 @@ app.get("/forecast", async (req: Request, res: Response) => {
 
     res.json({ data: weatherData });
   } catch (error) {
-    console.log(error.message);
     res.json({ error: "Internal Error" });
   }
 });
